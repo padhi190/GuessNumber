@@ -2,10 +2,11 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AppProvider from './provider/Provider';
 import RootScreen from './screens/RootScreen';
+import Colors from './utils/colors';
 
 export default function App() {
   return (
-    <LinearGradient colors={['#42063c', '#ddb52f']} style={styles.rootScreen}>
+    <LinearGradient colors={[Colors.primary700, Colors.accent500]} style={styles.rootScreen}>
       <ImageBackground
         source={require('./assets/background.png')}
         resizeMode="cover"
