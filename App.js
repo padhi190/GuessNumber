@@ -1,6 +1,7 @@
 import { ImageBackground, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import StartGameScreen from './screens/StartGameScreen';
+import AppProvider from './provider/Provider';
+import RootScreen from './screens/RootScreen';
 
 export default function App() {
   return (
@@ -11,7 +12,9 @@ export default function App() {
         style={styles.rootScreen}
         imageStyle={styles.backgroundImage}
       >
-        <StartGameScreen />
+        <AppProvider>
+          <RootScreen />
+        </AppProvider>
       </ImageBackground>
     </LinearGradient>
   );

@@ -1,7 +1,24 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
+import { useState } from 'react';
+import { useAppContext } from '../provider/Provider';
 
 function StartGameScreen() {
+  const [enteredNumber, setEnteredNumber] = useState('');
+
+  const { state, dispatch } = useAppContext();
+
+  const handleConfirm = () => {
+    const number = parseInt(enteredNumber);
+    if (isNaN(number) || number <= 0 || number > 99) {
+      Alert.alert('Error', 'Enter a number between 1 - 99', [
+        { text: 'Okay', style: 'destructive', onPress: () => setEnteredNumber('') },
+      ]);
+      return;
+    }
+    dispatch({ type: 'set-number', number });
+  };
+
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -10,15 +27,18 @@ function StartGameScreen() {
         maxLength={2}
         autoCapitalize="none"
         autoCorrect={false}
+        value={enteredNumber}
+        onChangeText={(text) => setEnteredNumber(text)}
       />
       <View style={styles.buttonContainer}>
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
           <PrimaryButton>Reset</PrimaryButton>
         </View>
-        <View style={{flex:1}}>
-          <PrimaryButton>Confirm</PrimaryButton>
+        <View style={{ flex: 1 }}>
+          <PrimaryButton onPress={handleConfirm}>Confirm</PrimaryButton>
         </View>
       </View>
+      <Text>{JSON.stringify(state, null, 2)}</Text>
     </View>
   );
 }
