@@ -7,10 +7,13 @@ const INITIAL_STATE = {
   minBoundary: 1,
   maxBoundary: 100,
   currentGuess: null,
+  noOfGuess: 0,
 };
 
 function reducer(state, action) {
   switch (action.type) {
+    case 'reset':
+      return INITIAL_STATE;
     case 'set-number':
       return {
         ...state,
@@ -34,6 +37,7 @@ function reducer(state, action) {
         maxBoundary: state.currentGuess,
         currentGuess: lowerGuess,
         gameState: lowerGuess === state.number ? 'gameOver' : state.gameState,
+        noOfGuess: state.noOfGuess + 1,
       };
     case 'guess-higher':
       const higherGuess = generateRandomBetween(
@@ -47,6 +51,7 @@ function reducer(state, action) {
         minBoundary: state.currentGuess + 1,
         currentGuess: higherGuess,
         gameState: higherGuess === state.number ? 'gameOver' : state.gameState,
+        noOfGuess: state.noOfGuess + 1,
       };
     case 'game-over':
       return {

@@ -1,8 +1,10 @@
 import { Alert, StyleSheet, Text, View } from 'react-native';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import Title from '../components/Title';
 import Colors from '../utils/colors';
 import { useAppContext } from '../provider/Provider';
 import PrimaryButton from '../components/PrimaryButton';
+import Card from '../components/Card';
 
 function GameScreen() {
   const { state, dispatch } = useAppContext();
@@ -26,16 +28,21 @@ function GameScreen() {
     <View style={styles.container}>
       <Title>Opponent's Guess</Title>
       <NumberContainer>{state.currentGuess}</NumberContainer>
-      <View>
-        <Text>Higher or Lower?</Text>
-        <View>
-          <PrimaryButton onPress={handleLower}>
-            -
-          </PrimaryButton>
-          <PrimaryButton onPress={handleHigher}>+</PrimaryButton>
+      <Card style={{ marginTop: 50 }}>
+        <Text style={styles.text}>Higher or Lower?</Text>
+        <View style={{ flexDirection: 'row'}}>
+          <View style={{ flex: 1 }}>
+            <PrimaryButton onPress={handleLower} >
+              <Ionicons name='remove' size={24} />
+            </PrimaryButton>
+          </View>
+          <View style={{ flex: 1}}>
+            <PrimaryButton onPress={handleHigher}>
+              <Ionicons name='add' size={24} />
+            </PrimaryButton>
+          </View>
         </View>
-      </View>
-      <Text>{JSON.stringify(state, null, 2)}</Text>
+      </Card>
     </View>
   );
 }
@@ -45,6 +52,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 34,
   },
+  text: {
+    color: 'white',
+    fontSize: 24,
+    marginBottom: 14
+  }
 });
 
 export default GameScreen;
@@ -62,7 +74,7 @@ const guessStyles = StyleSheet.create({
     borderWidth: 4,
     borderColor: Colors.accent500,
     padding: 24,
-    margin: 24,
+    marginTop: 24,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
