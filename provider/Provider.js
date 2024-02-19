@@ -22,26 +22,37 @@ function reducer(state, action) {
           state.currentGuess
         ),
       };
-    case 'guess-lower': 
+    case 'guess-lower':
+      const lowerGuess = generateRandomBetween(
+        state.minBoundary,
+        state.currentGuess,
+        state.currentGuess
+      );
+
       return {
         ...state,
         maxBoundary: state.currentGuess,
-        currentGuess: generateRandomBetween(
-          state.minBoundary,
-          state.currentGuess,
-          state.currentGuess
-        )
-      }
-    case 'guess-higher': 
+        currentGuess: lowerGuess,
+        gameState: lowerGuess === state.number ? 'gameOver' : state.gameState,
+      };
+    case 'guess-higher':
+      const higherGuess = generateRandomBetween(
+        state.currentGuess + 1,
+        state.maxBoundary,
+        state.currentGuess
+      );
+
       return {
         ...state,
         minBoundary: state.currentGuess + 1,
-        currentGuess: generateRandomBetween(
-          state.currentGuess + 1,
-          state.maxBoundary,
-          state.currentGuess
-        )
-      }
+        currentGuess: higherGuess,
+        gameState: higherGuess === state.number ? 'gameOver' : state.gameState,
+      };
+    case 'game-over':
+      return {
+        ...state,
+        gameState: 'gameOver',
+      };
     default:
       throw new Error('unhandled action', action.type);
   }
